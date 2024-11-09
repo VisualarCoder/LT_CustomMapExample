@@ -1,6 +1,6 @@
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 
-# GT_CustomMapExample
+# LT_CustomMapExample
 A Unity project to facilitate the creation of custom maps for Gorilla Tag. 
 
 **Contents**
