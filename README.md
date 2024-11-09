@@ -8,20 +8,11 @@ A Unity project to facilitate the creation of custom maps for Gorilla Tag.
 * [Setup](#setup)
 * [Creating a map](#creating-a-map)
 * [Accessing Your Map](#accessing-your-map)
-* [Matching Gorilla Tag's Style](#matching-gorilla-tags-style)
-* [Lighting](#lighting)
-    + [General Lighting Setup](#general-lighting-setup)
-    + [Lighting Meshes](#lighting-meshes)
-    + [Lights](#lights)
-    + [Other Tips](#other-tips)
 * [Trigger Scripts](#trigger-scriptsprefabs)
     + [Map Boundary](#map-boundary)
     + [Teleporter](#teleporter)
     + [Tag Zone](#tag-zone)
 * [Placeholder Script and Prefabs](#placeholder-script-and-prefabs)
-    + [Force Volume](#force-volume)
-    + [Leaf Glider](#leaf-glider)
-    + [Glider Wind Volume](#glider-wind-volume)
     + [Water Volume](#water-volume)
 * [Other Scripts](#other-scriptsprefabs)
     + [Surface Override Settings](#surface-override-settings)
@@ -63,9 +54,6 @@ Next, click Add Component and add a Map Descriptor. This will hold some informat
 Here's what each setting does:
 - `Map name` - This will be used for your exported scene and the .zip file created by the export process.
 - `Custom Skybox` - A cubemap that will be used as the skybox on your map. If this empty, it'll automatically give your
-  map the default game skybox
-- `Export Lighting` - How to handle exporting lighting data for your map. Please read the [Lighting Section](#lighting) for
-  more information.
 
 ## Accessing Your Map
 In order for Players to be able to access your map, it's required to include an `AccessDoorPlaceholder`.  
@@ -89,78 +77,10 @@ To make your textures have the same low-poly PS2 style as Gorilla Tag, change th
 
 ![default_best_textureSettings](https://github.com/user-attachments/assets/920305a3-efcd-43f2-88d2-e26f02addca6)
 
-
 Additionally, if you want to make a model low poly you can add a Decimate modifier to it in Blender. Lower the threshold 
 until the model looks low poly enough for you.
 
 ![decimate_modifier](https://github.com/user-attachments/assets/f66907c0-132a-431b-8139-0ea3c7e7c9d1)
-
-
-## Lighting
-An important part of making a map look good is the lighting. Since Gorilla Tag bakes lighting, the process to get it 
-working is a bit involved, but it's absolutely worth it.
-
-**When you SHOULD use lighting:**
-- Most maps
-- Complex maps with many objects
-- Maps that need shadows
-- Maps with reflections
-
-**When you SHOULDN'T use lighting:**
-- Maps that consist of mostly Unlit shaders
-- Maps where shadows aren't important
-- Maps that really need to save filesize
-
-If your map falls under the "SHOULDN'T USE LIGHTING" category, you can set your map's `Export Lighting` value to `Off` 
-and ignore the rest of this section.
-
-![lightingoptions](https://github.com/user-attachments/assets/072dce93-dd7a-41c2-ad4e-9c80baceee0c)
-
-Otherwise, follow these steps to getting lighting looking nice on your map:
-
-### General Lighting Setup
-Make sure to set your map's `Export Lighting` value to `Default_Unity` or `Alternative`, the rest of these instructions 
-assume you're using the `Default_Unity` option.
-
-Click on your map's GameObject, and set the `Static` value next to the name in the properties window to true.
-
-When ask if you'd like to enable the static flags for all the child objects, click `Yes, change children`
-
-Every object on your map should be static EXCEPT for:
-- Objects that have an animation
-- Objects that will somehow change or get enabled/disabled, such as a trigger
-- Objects that should not have shadows
-
-### Lighting Meshes
-When you're initially importing a mesh, go to the properties and make sure that the `Generate Lightmap UVs` box is checked.
-
-Go through all of your imported meshes now and make sure it's enabled for **all of them!** (unless you know what you're 
-doing and have applied Lightmap UVs in an external program)
-
-Next, go to each object with a `Mesh Renderer` in the scene, and ensure that `Contribute Global Illumination` is enabled. 
-If you want to disable an object Receiving/Casting shadows, mess with the `Cast Shadows` and `Receive Shadows` 
-properties - otherwise, leave them as the default values.
-
-### Lights
-The Example Map includes a `Directional Light` by default. Don't remove this unless you know what you're doing, as it 
-(pretty accurately) recreates the base game lighting.
-
-You can add any other sort of `Light` to your map that you want, but ensure that the type is set to `Baked`.
-
-### Other Tips
-Map compile time when baking lighting for the first time may be high. There's not much of a workaround here, so just 
-wait for it to finish. Subsequent exports will be significantly faster.
-
-If your map is too big or laggy after adding lighting, you can change these values in Window/Rendering/Lighting Settings:
-- Lightmap Resolution (Default 32) - Change to 16 or 8
-- Lightmap Size (Default 512) - Change to 256 or 128
-
-By default, your map preview in-editor won't have shadows or proper lighting. If you want a preview of how it looks, 
-go to `Window/Rendering/Lighting Settings` and click `Generate Lighting` in the bottom right. If you want to get rid of 
-the baked preview data, click the little arrow next to `Generate Lighting` and click `Clear Baked Data.`
-
-If your map is looking too light or you want to play around with how the lighting works, try adjusting the intensity of 
-the included `Directional Light.`
 
 If some materials look washed out ingame, try changing these settings on those materials:
 - Set Metallic to 0
@@ -204,23 +124,6 @@ folder which uses a Box Collider and includes a visual preview.
 The `Placeholder` script defines an object that will get replaced by an existing Gorilla Tag script/object when your map is loaded 
 in-game. Each has a prefab in the `Assets/MapPrefabs/` folder that can or should be used depending on the placeholder selected for 
 the `Placeholder Object` setting.
-
-### Force Volume 
-This is used in Gorilla Tag for things like the elevator to Sky Jungle and the invisible wind barriers preventing players from 
-falling out of the that map. The `ForceVolumePlaceholder` prefab has the `Placeholder` script setup to use the `Force Volume` option 
-and includes some default settings (each of which has a tooltip when hovered that provides more info). The prefab includes a visual 
-preview and can be scaled as desired. 
-
-### Leaf Glider 
-The `LeafGliderPlaceholder` prefab has the `Placeholder` script setup to use the `Leaf Glider` option and includes a visual preview 
-to assist with placement. It's recommended to **ONLY** use this prefab when using the `Leaf Glider` option on the `Placeholder` 
-script. Scaling the placeholder will not affect the leaf glider that it get's replaced with.
-
-### Glider Wind Volume 
-This is used in Gorilla Tag in Sky Jungle to send the Leaf Gliders into the air. The `GliderWindVolumePlaceholder` prefab has the 
-`Placeholder` script setup to use the `Glider Wind Volume` option and includes some default settings. It also includes a visual 
-preview, but if you change the `Local Wind Direction` setting the arrows in the preview will not be pointed the correct way. This 
-prefab/placeholder can be scaled as desired. 
 
 ### Water Volume
 The `WaterVolumePlaceholder` prefab has the `Placeholder` script setup to use the `Water Volume` option with some default settings. It includes a visual preview and can be scaled as desired.
