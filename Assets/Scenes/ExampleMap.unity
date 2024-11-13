@@ -11301,7 +11301,7 @@ MonoBehaviour:
   m_Script: {fileID: -49990228, guid: 772e7c8a0e1af7644acf472cecec0c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapName: ExampleMap
+  MapName: LT_ExampleMap
   AddSkybox: 1
   CustomSkybox: {fileID: 0}
   CustomSkyboxTint: {r: 0.224, g: 0.424, b: 0.839, a: 1}
